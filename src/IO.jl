@@ -1,7 +1,1 @@
-function MatsubaraIndex(x::Integer, t::Type{T}) where T <: Statistic
-    reinterpret(MatsubaraIndex{t}, x)
-end
-
-function Integer(x::MatsubaraIndex{T}) where T <: Statistic
-    reinterpret(Int64, x)
-end
+Base.show(io::IO, m::MatsubaraIndex{T}) where T <: Statistic = Base.show(io, Integer(m))

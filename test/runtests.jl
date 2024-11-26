@@ -13,6 +13,8 @@ using Test
     wm6::MatsubaraIndex{Bose} = MatsubaraIndex(6, Bose)
     wm7::MatsubaraIndex{Bose} = MatsubaraIndex(7, Bose)
     wm8::MatsubaraIndex{Bose} = MatsubaraIndex(8, Bose)
+    
+    vnm2::MatsubaraIndex{Fermi} = MatsubaraIndex(-2, Fermi)
     vnm1::MatsubaraIndex{Fermi} = MatsubaraIndex(-1, Fermi)
     vn0::MatsubaraIndex{Fermi} = MatsubaraIndex(0, Fermi)
     vn1::MatsubaraIndex{Fermi} = MatsubaraIndex(1, Fermi)
@@ -28,17 +30,25 @@ using Test
 
         @test -wm0 == wm0                  # "-B"
         @test -vn1 == vn0                  # "-F"
+        @test -vn0 == vn1                  # "-F"
 
         @test wm1 + wm2 == wm3             # "B+B"
-        #@test_throws error "B+B", wm1 + wm2 == vn3
+        @test wm2 + wm1 == wm3             # "B+B"
         @test wm1 + vn3 == vn4             # "B+F"
+        @test vn3 + wm1 == vn4             # "B+F"
         @test vn4 + wm2 == vn6             # "F+B"
+        @test wm2 + vn4 == vn6             # "F+B"
         @test vn4 + vn3 == wm8             # "F+F"
+        @test vn3 + vn4 == wm8             # "F+F"
 
         @test wm1 - wm2 == wmm1            # "B-B"
-        @test wm1 - vn3 == vnm1            # "B-F"
+        @test wm2 - wm1 == wm1             # "B-B"
+        @test wm1 - vn2 == vnm2            # "B-F"
         @test vn4 - wm2 == vn2             # "F-B"
-        @test vn4 - vn3 == wm3             # "F-F"
-
+        @test vnm1 - wmm1 == vn0           # "F-B"
+        @test vn4 - vn3 == wm1             # "F-F"
+        @test vn3 - vn4 == wmm1            # "F-F"
+        @test vn3 - vn0 == wm3             # "F-F"
+        @test vn3 - vn3 == wm0             # "F-F"
     end
 end
